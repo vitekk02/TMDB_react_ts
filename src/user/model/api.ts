@@ -41,7 +41,6 @@ export const getSessionId = async (requestToken: string): Promise<string> => {
   const response = await axios.post(GET_SESSION_ID, {
     request_token: requestToken,
   });
-  console.log(response);
   if (response.data.success === true) {
     return response.data.session_id;
   }

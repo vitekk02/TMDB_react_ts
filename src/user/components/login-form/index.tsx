@@ -4,6 +4,7 @@ import React, { FunctionComponent, memo } from 'react';
 
 import { Title } from '../../../layout/components/title';
 import { UserBase } from '../../types/userBase';
+import './styles.scss';
 
 interface Props {
     onSubmit(values: UserBase): void;
@@ -15,7 +16,7 @@ const LoginFormBase: FunctionComponent<Props> = (props) => {
   return (
     <Form
       name="login"
-      className="login-form"
+      className="login-form limitedWidth"
       onFinish={onSubmit}
     >
       <Title text="Login" />

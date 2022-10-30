@@ -1,13 +1,11 @@
-import { Button, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import React, {
-  FunctionComponent, memo, useContext, useEffect, useState,
+  FunctionComponent, memo, useCallback,
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { DETAIL_PATH } from '../../../consts';
-import { Loader } from '../../../layout';
-import { LoggedInUserContext } from '../../../user/utils/logged-in-user-context';
-import { useAddToWatchlist, useGetWatchList } from '../../model';
+import { WatchlistButton } from '../../../layout';
 import { Movie } from '../../types/movie';
 import './style.scss';
 
@@ -18,32 +16,10 @@ interface Props {
 const MovieInfoBase: FunctionComponent<Props> = (props) => {
   const { movie } = props;
   const navigate = useNavigate();
-  const { user } = useContext(LoggedInUserContext);
-  const sessionId = localStorage.getItem('userId');
-  const [isWatchList, setIsWatchList] = useState(false);
 
-  const { data, isSuccess } = useGetWatchList(user?.id, 1);
-  useEffect(() => {
-    if (isSuccess && data.results) {
-      const watchList = data.results.find((item) => item.id === movie.id);
-      if (watchList) {
-        setIsWatchList(true);
-      } else {
-        setIsWatchList(false);
-      }
-    }
-  }, [data, isSuccess, movie.id]);
-
-  const addWatchlist = useAddToWatchlist(user?.id, sessionId, movie.id, !isWatchList);
-
-  const detail = () => {
+  const detail = useCallback(() => {
     navigate(DETAIL_PATH(movie.id));
-  };
-
-  const watchlist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    e.stopPropagation();
-    addWatchlist.mutate();
-  };
+  }, [movie.id, navigate]);
 
   return (
 
@@ -73,17 +49,8 @@ const MovieInfoBase: FunctionComponent<Props> = (props) => {
           </div>
         </Row>
       </Col>
-      <Col xl={4}>
-        {!addWatchlist.isLoading
-        && (
-        <Button onClick={(e) => watchlist(e)}>
-          {isWatchList === false ? 'Add to watchlist' : 'Remove from watchlist'}
-        </Button>
-        )}
-        {addWatchlist.isLoading
-        && (
-          <Loader loading withoutChildren />
-        )}
+      <Col xl={4} onClick={(e) => e.stopPropagation()}>
+        <WatchlistButton movieId={movie.id} />
       </Col>
     </Row>
   );

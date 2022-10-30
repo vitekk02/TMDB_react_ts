@@ -4,6 +4,7 @@ import React, {
 
 import { Loader } from '../../layout';
 import { LoggedInUserContext } from '../../user/utils/logged-in-user-context';
+import { MovieWatchlistDetail } from '../components/movie-watchlist';
 import { useGetWatchList } from '../model';
 
 import './styles.scss';
@@ -31,7 +32,7 @@ const BaseWatchList: FunctionComponent = () => {
     return (
       <div>
         {isSuccess && data.results && data.results.map((movie) => (
-          <div key={movie.id}>{movie.title}</div>
+          <MovieWatchlistDetail movie={movie} key={movie.id} />
         ))}
       </div>
     );

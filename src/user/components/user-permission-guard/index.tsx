@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { HOME_PATH } from '../../../consts';
+import { HOME_PATH, LOGIN_PATHNAME } from '../../../consts';
 import { Loader } from '../../../layout';
 import { useGetUserInfo } from '../../model';
 import { User } from '../../types/user';
@@ -15,16 +15,19 @@ const UserPermissionGuardBase: FunctionComponent<PropsWithChildren<{}>> = ({ chi
 
   const [user, setUser] = useState<User | null>(null);
   const isUserLoggenIn = !isNull(user);
-  const isLoginScreen = window.location.pathname === '/';
+  const isLoginScreen = window.location.pathname === '/login';
 
   useEffect(() => {
+    if (!isUserLoggenIn && !isLoginScreen) {
+      navigate(LOGIN_PATHNAME);
+    }
     if (isUserLoggenIn && isLoginScreen) {
       navigate(HOME_PATH);
     }
   }, [isUserLoggenIn, navigate, isLoginScreen]);
 
   const {
-    data, isError, error, isLoading,
+    data, isLoading,
   } = useGetUserInfo();
 
   useEffect(() => {
@@ -36,12 +39,6 @@ const UserPermissionGuardBase: FunctionComponent<PropsWithChildren<{}>> = ({ chi
       <Loader loading withoutChildren message="Loading..." />
     );
   }
-  if (isError) {
-    return (
-      <div>{error.message}</div>
-    );
-  }
-
   return (
     <LoggedInUserProvider user={user} setUser={setUser}>
       {children}

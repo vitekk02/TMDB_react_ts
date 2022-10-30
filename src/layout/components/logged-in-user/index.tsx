@@ -18,12 +18,17 @@ const LoggedInUserBase: FunctionComponent = () => {
   const logoutUser = useCallback(() => {
     if (setUser) {
       setUser(null);
+      localStorage.removeItem('userId');
       goToLogin();
     }
   }, [goToLogin, setUser]);
 
   const watchlist = useCallback(() => {
     navigate('/watchlist');
+  }, [navigate]);
+
+  const home = useCallback(() => {
+    navigate('/home');
   }, [navigate]);
 
   return (
@@ -39,7 +44,9 @@ const LoggedInUserBase: FunctionComponent = () => {
           <div className="d-inline-block px-2">
             <Button onClick={watchlist}>Watchlist</Button>
           </div>
-
+          <div className="d-inline-block px-2">
+            <Button onClick={home}>Home</Button>
+          </div>
         </>
       ) : (
         <div className="px-2">
