@@ -5,7 +5,7 @@ import { movieRoutes } from './movie/routes';
 import { userRoutes } from './user/routes';
 
 const OurRoutesBase: FunctionComponent = () => (
-  <Routes>
+  <Routes key="routes">
     {userRoutes}
     {movieRoutes}
   </Routes>

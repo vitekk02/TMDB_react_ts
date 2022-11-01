@@ -2,6 +2,7 @@ import React, { Route } from 'react-router-dom';
 
 import { MovieDetail } from './screens/detail';
 import { MovieList } from './screens/list';
+import { RatedMovies } from './screens/rated';
 import { WatchList } from './screens/watchlist';
 
 export const movieRoutes = [
@@ -21,6 +22,11 @@ export const movieRoutes = [
         key="watchlist"
         path="/watchlist"
         element={<WatchList />}
+      />
+      <Route
+        key="rated"
+        path="/rated"
+        element={<RatedMovies />}
       />
     </>
   ),

@@ -17,15 +17,6 @@ const UserPermissionGuardBase: FunctionComponent<PropsWithChildren<{}>> = ({ chi
   const isUserLoggenIn = !isNull(user);
   const isLoginScreen = window.location.pathname === '/login';
 
-  useEffect(() => {
-    if (!isUserLoggenIn && !isLoginScreen) {
-      navigate(LOGIN_PATHNAME);
-    }
-    if (isUserLoggenIn && isLoginScreen) {
-      navigate(HOME_PATH);
-    }
-  }, [isUserLoggenIn, navigate, isLoginScreen]);
-
   const {
     data, isLoading,
   } = useGetUserInfo();
@@ -33,6 +24,19 @@ const UserPermissionGuardBase: FunctionComponent<PropsWithChildren<{}>> = ({ chi
   useEffect(() => {
     setUser(data || null);
   }, [data]);
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+    if (!isUserLoggenIn && !isLoginScreen) {
+      navigate(LOGIN_PATHNAME);
+    }
+    if (isUserLoggenIn && isLoginScreen) {
+      navigate(HOME_PATH);
+    }
+    // eslint-disable-next-line
+  }, [isUserLoggenIn, navigate, isLoginScreen]);
 
   if (isLoading) {
     return (

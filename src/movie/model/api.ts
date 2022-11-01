@@ -86,3 +86,50 @@ export const addToWatchlist = async (accountId: string | number | undefined, ses
   }
   throw new Error('Failed to add to watchlist');
 };
+
+export const getRatedMovies = async (accountId: string | number | undefined, page: number) => {
+  const sessionId = localStorage.getItem('userId');
+  if (sessionId === null) {
+    throw new Error('No session id');
+  }
+
+  if (accountId === undefined) {
+    throw new Error('No account id');
+  }
+  let query = `https://api.themoviedb.org/3/account/${accountId}/rated/movies${apiKey}&session_id=${sessionId}`;
+
+  if (page !== null) {
+    query += `&page=${page}`;
+  }
+  const response = await axios.get(query);
+  if (response.status === 200) {
+    return response.data;
+  }
+  throw new Error('Failed to load movie');
+};
+
+export const addRating = async (accountId: string | number | undefined, movieId: string | number, rating: string) => {
+  const sessionId = localStorage.getItem('userId');
+  if (accountId === undefined || sessionId === null) {
+    throw new Error('No session id');
+  }
+  const response = await axios.post(`https://api.themoviedb.org/3/movie/${movieId}/rating${apiKey}&session_id=${sessionId}`, {
+    value: rating,
+  });
+  if (response.data.success) {
+    return true;
+  }
+  throw new Error('Failed to add to watchlist');
+};
+
+export const removeRating = async (accountId: string | number | undefined, movieId: string | number) => {
+  const sessionId = localStorage.getItem('userId');
+  if (accountId === undefined || sessionId === null) {
+    throw new Error('No session id');
+  }
+  const response = await axios.delete(`https://api.themoviedb.org/3/movie/${movieId}/rating${apiKey}&session_id=${sessionId}`);
+  if (response.data.success) {
+    return true;
+  }
+  throw new Error('Failed to add to watchlist');
+};

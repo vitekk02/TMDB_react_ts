@@ -31,6 +31,10 @@ const LoggedInUserBase: FunctionComponent = () => {
     navigate('/home');
   }, [navigate]);
 
+  const rated = useCallback(() => {
+    navigate('/rated');
+  }, [navigate]);
+
   return (
     <div className="loggedInUser">
       {user ? (
@@ -43,6 +47,9 @@ const LoggedInUserBase: FunctionComponent = () => {
           </div>
           <div className="d-inline-block px-2">
             <Button onClick={watchlist}>Watchlist</Button>
+          </div>
+          <div className="d-inline-block px-2">
+            <Button onClick={rated}>Rated movies</Button>
           </div>
           <div className="d-inline-block px-2">
             <Button onClick={home}>Home</Button>

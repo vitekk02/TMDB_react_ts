@@ -13,6 +13,7 @@ export interface Movie{
     backdrop_path: string | null,
     popularity: number,
     vote_count: number,
+    vote_average: number,
     video: boolean,
-    vote_average: number
+    rating: number
 }

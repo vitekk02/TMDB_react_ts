@@ -7,3 +7,4 @@ export const apiKey = '?api_key=fbddfebb34c2c67d720bec6546c0031a';
 export const TOP_RATED_QUERY = 'topRated';
 export const MOVIE_DETAIL_QUERY = 'detailMovie';
 export const MOVIE_WATCHLIST_QUERY = 'watchList';
+export const MOVIE_RATED_QUERY = 'ratedMovies';

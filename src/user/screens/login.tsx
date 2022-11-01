@@ -13,20 +13,19 @@ import { LoggedInUserContext } from '../utils/logged-in-user-context';
 const LoginBase: FunctionComponent = () => {
   const { setUser } = useContext(LoggedInUserContext);
 
-  const token = createNewToken();
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = useCallback((login: UserBase) => {
     setLoading(true);
-    token.then((data) => {
+    createNewToken().then((data) => {
       const newLogin = login;
       newLogin.request_token = data.request_token;
       authenticateUser(login).then((data2) => {
         setSessionId(data2);
       });
     });
-  }, [token]);
+  }, []);
   useEffect(() => {
     if (sessionId !== null) {
       const test = getSessionId(sessionId);

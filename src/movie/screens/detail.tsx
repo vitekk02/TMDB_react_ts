@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 
 import { Loader } from '../../layout';
 import { ReviewsList } from '../components';
+import { RateMovie } from '../components/movie-rate';
 import { MovieRecommendationsList } from '../components/movie-recommendations/recommendationsList';
 import { useGetDetail } from '../model';
 import './styles.scss';
@@ -43,6 +44,7 @@ const BaseMovieDetail: FunctionComponent = () => {
         <h1>{data?.title}</h1>
         <img src={`http://image.tmdb.org/t/p/w200/${data?.poster_path}`} alt="" />
         <p>{data?.overview}</p>
+        <RateMovie movieId={data?.id} />
         <Row>
           <Button onClick={showRecommendations} className="margin-10">Recommendations</Button>
           <Button onClick={showReviews} className="margin-10">Reviews</Button>
